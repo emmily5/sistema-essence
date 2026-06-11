@@ -1,146 +1,126 @@
-# 🧴 Sistema Essence — Gestão de Perfumes
+# Sistema Essence
 
-Sistema simples para você controlar seus **perfumes, clientes, vendas, lucros e metas**.
-Funciona **no seu computador, offline**, sem precisar de internet, sem login e sem mensalidade.
-Seus dados ficam guardados de forma permanente no próprio computador.
+Aplicação web local para gestão de perfumes (estoque, vendas a prazo, pagamentos, inadimplência e relatórios). Roda inteiramente offline, sem autenticação, persistindo em SQLite no próprio host.
 
----
+## Stack
 
-## ✅ O que o sistema faz
+- **Backend:** Python 3.9+ / Flask (`>=2.3,<4.0`) — API REST em [`app.py`](app.py), arquivo único.
+- **Persistência:** SQLite via `sqlite3` da stdlib (`essence.db`). `PRAGMA foreign_keys = ON` por conexão.
+- **Frontend:** SPA vanilla — [`templates/index.html`](templates/index.html), [`static/js/app.js`](static/js/app.js), [`static/css/style.css`](static/css/style.css). Sem build step, sem dependências de frontend.
+- **PDF:** geração manual de `%PDF-1.4` em [`app.py`](app.py) (`gerar_pdf_relatorio`), sem bibliotecas externas.
+- **Servidor:** `app.run` em `127.0.0.1`, dev server do Flask (`debug=False`).
 
-- **Dashboard**: faturamento do mês, lucro, meta com barra de progresso, total investido no estoque e débitos em aberto.
-- **Perfumes**: cadastrar, editar e apagar. O **lucro e a margem são calculados automaticamente**. O **estoque baixa sozinho** a cada venda.
-- **Clientes / Vendas**: cada ficha pode ter **vários perfumes** (com datas diferentes) e **vários pagamentos**. O sistema mostra **Total, Pago e Saldo devedor** automaticamente.
-- **Relatório do cliente**: botão 📄 em cada ficha gera o texto pronto para **copiar e colar no WhatsApp**.
-- **Inadimplência**: lista quem tem **saldo devedor** com prazo vencido, até quitar.
-- **Lixeira**: tudo que você apaga (perfume ou venda) pode ser **restaurado por 7 dias**.
-- **Relatório PDF**: baixe um PDF com todos os clientes, perfumes, datas de compra e de pagamento.
-- **Configurações**: definir a **meta do mês**, **fazer backup** e **restaurar** os dados.
+Única dependência externa é o Flask (ver [`requirements.txt`](requirements.txt)).
 
----
+## Como rodar
 
-## 💻 Como instalar (só na primeira vez)
+Os scripts criam o virtualenv, instalam dependências na primeira execução e abrem o navegador.
 
-O sistema precisa do **Python** instalado. Você só faz isso uma vez.
+```bash
+# macOS / Linux
+./iniciar.sh
 
-### Windows
-1. Acesse **https://www.python.org/downloads/**
-2. Clique em **Download Python** e abra o instalador.
-3. **MUITO IMPORTANTE:** na primeira tela, marque a caixinha **“Add Python to PATH”** e depois clique em **Install Now**.
-4. Aguarde terminar e feche.
+# Windows
+iniciar.bat
+```
 
-### Mac
-- O Mac normalmente já vem com Python. Se não tiver, baixe em **https://www.python.org/downloads/** e instale.
+Manual:
 
----
+```bash
+python3 -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
 
-## ▶️ Como abrir o sistema no dia a dia
+Servidor sobe em `http://127.0.0.1:8000`. Porta configurável via env `ESSENCE_PORT`.
 
-### Windows
-- Dê **dois cliques** no arquivo **`iniciar.bat`**.
-- Uma janela preta vai abrir e, em poucos segundos, o sistema abre **sozinho no navegador**.
-- Na primeira vez ele demora um pouco mais (está se preparando). Depois é rápido.
+## Modelo de dados
 
-### Mac / Linux
-- Abra o **Terminal** na pasta do sistema e digite:
-  ```
-  ./iniciar.sh
-  ```
-- O navegador abre sozinho em poucos segundos.
+`init_db()` cria o schema no boot e popula dados de exemplo apenas na primeira execução (`first_time`). `_migrar_esquema_antigo()` migra automaticamente do schema legado (1 venda = 1 perfume) para o atual (ficha + itens).
 
-> Se o navegador não abrir sozinho, digite este endereço no navegador:
-> **http://127.0.0.1:8000**
-
-### Para fechar o sistema
-- **Windows:** feche a janela preta.
-- **Mac/Linux:** aperte **Ctrl + C** no Terminal.
-
----
-
-## 💾 Backup (cópia de segurança) — importante!
-
-Como são dados financeiros, faça backup de vez em quando:
-
-1. No menu lateral, clique em **Configurações**.
-2. Clique em **“Baixar backup agora”** — um arquivo `.db` vai para a sua pasta de Downloads.
-3. Guarde esse arquivo em um lugar seguro (pendrive, e-mail ou nuvem).
-
-### Restaurar um backup
-1. Em **Configurações**, na seção **Restaurar dados**, selecione o arquivo de backup `.db`.
-2. Clique em **“Restaurar do arquivo”** e confirme.
-3. Antes de substituir, o sistema cria automaticamente uma cópia de segurança dos dados atuais na pasta `backups/`.
-
----
-
-## 🗑️ Lixeira (apagar sem medo)
-
-Quando você apaga um perfume ou uma venda, ele **não some na hora**: vai para a **Lixeira**.
-- Você tem **7 dias** para restaurar (botão **"↩️ Restaurar"**).
-- Depois desse prazo, o sistema apaga sozinho, de vez.
-- Pode também **excluir de vez** na hora ou **esvaziar a lixeira**, se quiser.
-
-## 🛒 Ficha do cliente (vários perfumes e pagamentos)
-
-Cada cliente tem uma **ficha** que pode conter **vários perfumes**, comprados até em **datas diferentes**:
-1. Clique em **＋ Nova ficha**.
-2. Adicione os perfumes em **“Perfumes da compra”** (perfume, quantidade, valor e a data de cada um).
-3. Se for **Prazo**, registre os **pagamentos** conforme o cliente vai pagando, em **“Pagamentos recebidos”**.
-4. O sistema mostra sozinho **Total**, **Pago** e **Saldo devedor**. Quando o saldo chega a **R$ 0,00**, a ficha vira **Quitada** e sai da inadimplência.
-
-> O **estoque baixa automaticamente** quando você vende (ex.: 6 Delina → vendeu 1 → fica 5). Não dá para vender mais do que há em estoque. Se apagar ou editar a ficha, o estoque é devolvido/corrigido.
-
-Para receber um pagamento rápido, use o botão 💵 na linha do cliente.
-
-## 📄 Relatórios
-
-- **Relatório do cliente (WhatsApp):** botão 📄 em cada ficha → abre o texto pronto, com botão **Copiar texto**. O rodapé (chave Pix, nome e empresa) vem das **Configurações** e você pode editar quando quiser.
-- **Relatório geral em PDF:** botão **“Relatório geral”** (ou em Configurações) → baixa um PDF com todos os clientes, perfumes, valores e datas.
-
-> Dica sobre **inadimplência**: um cliente aparece lá quando tem **saldo devedor** (ainda deve) **e** o vencimento já passou. Ao quitar o saldo, ele sai da lista automaticamente.
-
-## 📂 Onde ficam as coisas importantes
-
-| O quê | Onde |
+| Tabela | Função |
 |---|---|
-| **Banco de dados (seus dados)** | arquivo **`essence.db`** na pasta do sistema |
-| **Backups e cópias automáticas** | pasta **`backups/`** |
-| **Logo** | **`assets/logo.png`** (troque por sua logo, mantendo o mesmo nome) |
+| `perfumes` | catálogo/estoque. `preco_custo`, `valor_final`, `estoque`, `deleted_at` (soft delete). |
+| `vendas` | ficha do cliente. `status` (`Pendente`/`Pago`), `data_vencimento`, `data_quitacao`, `deleted_at`. |
+| `venda_itens` | itens da ficha. FK → `vendas` (`ON DELETE CASCADE`) e `perfumes` (`ON DELETE SET NULL`). Guarda `perfume_nome` desnormalizado, `valor`, `lucro`, `data_compra`. |
+| `pagamentos` | pagamentos parciais por venda. FK → `vendas` (`ON DELETE CASCADE`). |
+| `config` | key/value (meta do mês, dados do rodapé do relatório, Pix). |
 
-> 👉 Para um backup manual rápido, basta **copiar o arquivo `essence.db`** para outro lugar.
-> Ele é criado automaticamente na primeira vez que você abre o sistema.
+Pontos relevantes:
 
----
+- **Soft delete:** `perfumes` e `vendas` usam `deleted_at`. `purge_trash()` remove definitivamente após `TRASH_RETENTION_DAYS = 7` (executado no boot).
+- **Estoque transacional:** baixa no registro da venda e é estornado/recalculado ao editar ou apagar a ficha. Venda não pode exceder o estoque disponível.
+- **Saldo:** `Total − Σ pagamentos`. Ficha vira `Pago`/`Quitada` quando o saldo zera.
 
-## 🖼️ Trocar a logo
+## API
 
-Coloque a sua logo dentro da pasta **`assets/`** com o nome **`logo.png`** (substituindo a que já existe).
-Se o arquivo não existir, o sistema mostra um “E” laranja no lugar — o layout não quebra.
+Todas as rotas retornam JSON, exceto `/`, `/assets/...`, `/api/backup` e `/api/relatorio.pdf`.
 
----
+```
+GET    /                              SPA
+GET    /assets/<filename>             logo/favicon
 
-## ℹ️ Dados de exemplo
+GET    /api/perfumes
+POST   /api/perfumes
+PUT    /api/perfumes/<pid>
+DELETE /api/perfumes/<pid>            soft delete
 
-Na primeira execução o sistema já vem com **perfumes e vendas de exemplo** (inclusive clientes em atraso),
-para você testar todas as telas. Pode apagar tudo quando quiser e cadastrar os seus.
+GET    /api/vendas
+GET    /api/vendas/<vid>
+POST   /api/vendas
+PUT    /api/vendas/<vid>
+DELETE /api/vendas/<vid>              soft delete
+POST   /api/vendas/<vid>/pagamentos   registra pagamento parcial
+POST   /api/vendas/<vid>/quitar       quita saldo restante
+GET    /api/vendas/<vid>/relatorio    texto pronto p/ WhatsApp
 
----
+GET    /api/inadimplencia            vendas com saldo + vencimento expirado
+GET    /api/dashboard                agregados do mês
 
-## 🧮 Como as contas são feitas
+GET    /api/config
+PUT    /api/config
 
-- **Lucro do perfume** = valor de venda − preço de custo
-- **Margem (%)** = lucro ÷ valor de venda × 100
-- **Faturamento do mês** = soma das vendas do mês atual
-- **Lucro do mês** = soma dos lucros das vendas do mês atual
-- **Total investido** = soma de (preço de custo × estoque) de todos os perfumes
-- **Falta para a meta** = meta − faturamento do mês (se atingiu, mostra “Meta atingida! 🎉”)
-- **Inadimplente** = venda Pendente cuja data de pagamento já passou
+GET    /api/lixeira
+POST   /api/lixeira/<tipo>/<id>/restaurar
+DELETE /api/lixeira/<tipo>/<id>      exclusão definitiva
+POST   /api/lixeira/esvaziar
 
----
+GET    /api/relatorio.pdf            relatório geral (download)
+GET    /api/backup                   dump .db (download)
+POST   /api/restore                  substitui o banco a partir de upload
+```
 
-## ❓ Problemas comuns
+## Cálculos (em [`app.py`](app.py))
 
-- **“Python não encontrado”** → instale o Python (passo acima) e, no Windows, lembre de marcar **“Add Python to PATH”**.
-- **A página não abre** → digite **http://127.0.0.1:8000** no navegador.
-- **Perdi meus dados** → restaure pelo backup mais recente em **Configurações → Restaurar dados**.
+- Lucro do item = `valor_final − preco_custo`
+- Margem (%) = `lucro / valor_final × 100`
+- Faturamento/lucro do mês = soma das vendas/lucros do mês corrente
+- Total investido = `Σ (preco_custo × estoque)`
+- Inadimplente = venda com saldo devedor **e** `data_vencimento` no passado
 
-Pronto! É só usar. 💛
+## Backup e restore
+
+- **Backup:** `GET /api/backup` usa `sqlite3` backup API para gerar um `.db` consistente e baixa via `send_file`. Equivalente manual: copiar `essence.db`.
+- **Restore:** `POST /api/restore` valida o upload (abre como SQLite), grava uma cópia de segurança dos dados atuais em `backups/` e então substitui `essence.db`.
+
+## Layout do projeto
+
+```
+app.py              # backend + API + schema + PDF
+templates/          # SPA (index.html)
+static/             # css, js
+assets/             # logo.jpeg, favicon.jpeg
+essence.db          # banco (criado no primeiro boot)
+backups/            # cópias automáticas pré-restore (gitignored)
+iniciar.sh / .bat   # bootstrap venv + run
+```
+
+`venv/`, `backups/` e caches estão no [`.gitignore`](.gitignore).
+
+## Notas
+
+- Sem auth e bind em `127.0.0.1` — projetado para uso local single-user, não para deploy exposto.
+- Dev server do Flask; para produção use um WSGI server (gunicorn/waitress).
+- Migração de schema legado é automática e idempotente no boot.
+```
