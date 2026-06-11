@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Essence — Gestão de Perfumes</title>
+  <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/favicon.jpeg"
+    />
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+  <div class="brand">
+    <img src="assets/logo.jpeg" alt="Logo Essence" class="logo-completa">
+  </div>
+
+      <nav class="menu">
+        <a href="#" class="menu-item active" data-view="dashboard">
+          <span class="ico">📊</span> Dashboard
+        </a>
+        <a href="#" class="menu-item" data-view="perfumes">
+          <span class="ico">🧴</span> Perfumes
+        </a>
+        <a href="#" class="menu-item" data-view="vendas">
+          <span class="ico">👤</span> Clientes / Vendas
+        </a>
+        <a href="#" class="menu-item" data-view="inadimplencia">
+          <span class="ico">⚠️</span> Inadimplência
+          <span class="badge" id="badge-inad" style="display:none;">0</span>
+        </a>
+        <a href="#" class="menu-item" data-view="lixeira">
+          <span class="ico">🗑️</span> Lixeira
+        </a>
+        <a href="#" class="menu-item" data-view="config">
+          <span class="ico">⚙️</span> Configurações
+        </a>
+      </nav>
+
+      <!--<div class="sidebar-footer">Uso local • Offline</div>-->
+    </aside>
+
+    <!-- Conteúdo -->
+    <main class="content">
+      <div id="view-container"></div>
+    </main>
+  </div>
+
+  <!-- Modal genérico -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Título</h3>
+        <button class="modal-close" onclick="App.fecharModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Confirmação -->
+  <div class="modal-overlay" id="confirm-overlay">
+    <div class="modal modal-sm">
+      <div class="modal-header"><h3 id="confirm-title">Confirmar</h3></div>
+      <div class="modal-body">
+        <p id="confirm-text">Tem certeza?</p>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" onclick="App.fecharConfirm()">Cancelar</button>
+          <button class="btn btn-danger" id="confirm-ok">Apagar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notificações -->
+  <div class="toast-wrap" id="toast-wrap"></div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

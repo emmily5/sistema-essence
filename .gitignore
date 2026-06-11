@@ -1,0 +1,30 @@
+# Ambiente virtual Python
+venv/
+.venv/
+env/
+
+# Banco de dados (contém dados reais - não subir)
+essence.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Backups
+backups/
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Configurações de IDE
+.vscode/
+.idea/
+
+# Logs e temporários
+*.log
+*.tmp

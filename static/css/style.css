@@ -1,0 +1,247 @@
+/* ====== Sistema Essence — identidade visual ====== */
+:root{
+  --laranja:#FF8C00;
+  --laranja-escuro:#E67E00;
+  --laranja-claro:#FFF2E0;
+  --branco:#FFFFFF;
+  --gelo:#F5F4F0;
+  --texto:#2B2B2B;
+  --texto-suave:#7A7A7A;
+  --borda:#ECEAE4;
+  --verde:#2EA86A;
+  --vermelho:#E04B4B;
+  --vermelho-claro:#FDECEC;
+  --sombra:0 4px 18px rgba(0,0,0,.06);
+  --sombra-forte:0 10px 30px rgba(0,0,0,.12);
+  --raio:16px;
+  --raio-sm:10px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--gelo);
+  color:var(--texto);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,strong{font-family:'Poppins',sans-serif}
+
+.app{display:flex;min-height:100vh}
+
+/* ====== Sidebar ====== */
+.sidebar {
+  width: 260px;
+  background: var(--branco);
+  border-right: 1px solid var(--borda);
+  display: flex;
+  flex-direction: column;
+  padding: 22px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centraliza a logo */
+  padding: 6px 8px 22px;
+  border-bottom: 1px solid var(--borda);
+  margin-bottom: 18px;
+}
+
+.logo-completa {
+  width: 100%; /* Ajusta para caber na largura disponível */
+  max-width: 180px; /* Limita o tamanho máximo */
+  height: auto;
+  object-fit: contain;
+}
+
+.menu{display:flex;flex-direction:column;gap:4px;flex:1}
+.menu-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:var(--raio-sm);
+  text-decoration:none;color:var(--texto);font-weight:500;font-size:15px;
+  transition:.15s;position:relative;
+}
+.menu-item .ico{font-size:18px}
+.menu-item:hover{background:var(--gelo)}
+.menu-item.active{background:var(--laranja);color:#fff}
+.badge{
+  margin-left:auto;background:var(--vermelho);color:#fff;
+  font-size:11px;font-weight:700;border-radius:20px;padding:2px 8px;
+}
+.menu-item.active .badge{background:#fff;color:var(--vermelho)}
+.sidebar-footer{font-size:11px;color:var(--texto-suave);text-align:center;padding-top:12px}
+
+/* ====== Conteúdo ====== */
+.content{flex:1;padding:32px 38px;max-width:1300px;width:100%}
+.page-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:14px}
+.page-head h1{font-size:26px}
+.page-head p{color:var(--texto-suave);font-size:14px;margin-top:2px}
+
+/* ====== Botões ====== */
+.btn{
+  border:none;cursor:pointer;font-family:'Inter';font-weight:600;font-size:14px;
+  padding:11px 20px;border-radius:var(--raio-sm);transition:.15s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary{background:var(--laranja);color:#fff}
+.btn-primary:hover{background:var(--laranja-escuro)}
+.btn-ghost{background:var(--gelo);color:var(--texto)}
+.btn-ghost:hover{background:#e9e7e1}
+.btn-danger{background:var(--vermelho);color:#fff}
+.btn-danger:hover{background:#c83c3c}
+.btn-success{background:var(--verde);color:#fff}
+.btn-success:hover{background:#268a57}
+.btn-sm{padding:7px 12px;font-size:13px}
+.btn-icon{background:transparent;padding:6px 9px;border-radius:8px;font-size:15px}
+.btn-icon:hover{background:var(--gelo)}
+
+/* ====== Cards ====== */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-bottom:26px}
+.card{
+  background:var(--branco);border-radius:var(--raio);padding:22px;
+  box-shadow:var(--sombra);border:1px solid var(--borda);
+}
+.card .card-label{font-size:13px;color:var(--texto-suave);font-weight:500;display:flex;align-items:center;gap:7px}
+.card .card-value{font-size:28px;font-weight:700;font-family:'Poppins';margin-top:8px}
+.card.destaque{background:linear-gradient(135deg,var(--laranja),var(--laranja-escuro));color:#fff;border:none}
+.card.destaque .card-label{color:rgba(255,255,255,.9)}
+.card-sub{font-size:12px;color:var(--texto-suave);margin-top:6px}
+.card.destaque .card-sub{color:rgba(255,255,255,.85)}
+
+/* barra de progresso da meta */
+.progress-card{grid-column:1/-1}
+.progress-bar{height:16px;background:var(--gelo);border-radius:20px;overflow:hidden;margin-top:14px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--laranja),var(--laranja-escuro));border-radius:20px;transition:width .6s ease;min-width:2px}
+.progress-meta{display:flex;justify-content:space-between;font-size:13px;margin-top:10px;color:var(--texto-suave)}
+.meta-ok{color:var(--verde);font-weight:600}
+
+/* ====== Tabela / cards ====== */
+.toolbar{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.search{
+  flex:1;min-width:200px;position:relative;
+}
+.search input{
+  width:100%;padding:11px 14px 11px 40px;border:1px solid var(--borda);
+  border-radius:var(--raio-sm);font-size:14px;background:var(--branco);font-family:'Inter';
+}
+.search::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.5}
+.search input:focus,select:focus,input:focus,textarea:focus{outline:2px solid var(--laranja);outline-offset:-1px;border-color:var(--laranja)}
+select.filtro{padding:11px 14px;border:1px solid var(--borda);border-radius:var(--raio-sm);background:var(--branco);font-size:14px;font-family:'Inter';cursor:pointer}
+
+.table-wrap{background:var(--branco);border-radius:var(--raio);box-shadow:var(--sombra);overflow:hidden;border:1px solid var(--borda)}
+table{width:100%;border-collapse:collapse}
+th{
+  text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+  color:var(--texto-suave);padding:15px 18px;background:var(--gelo);font-weight:600;
+}
+td{padding:15px 18px;border-top:1px solid var(--borda);font-size:14px}
+tbody tr:hover{background:#fcfbf9}
+.t-right{text-align:right}
+.t-center{text-align:center}
+.acoes{display:flex;gap:4px;justify-content:flex-end}
+
+.pill{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.pill-pago{background:#E7F6EE;color:var(--verde)}
+.pill-pendente{background:var(--laranja-claro);color:var(--laranja-escuro)}
+.pill-atraso{background:var(--vermelho-claro);color:var(--vermelho)}
+.pill-forma{background:var(--gelo);color:var(--texto-suave)}
+.pill-estoque-0{background:var(--vermelho-claro);color:var(--vermelho)}
+.lucro-pos{color:var(--verde);font-weight:600}
+
+.empty{padding:50px 20px;text-align:center;color:var(--texto-suave)}
+.empty .big{font-size:46px;margin-bottom:10px}
+
+/* ====== Modal ====== */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);
+  z-index:100;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--branco);border-radius:var(--raio);width:100%;max-width:560px;
+  box-shadow:var(--sombra-forte);animation:pop .18s ease;
+}
+.modal-sm{max-width:420px}
+.modal-lg{max-width:820px}
+
+/* mini-tabelas de itens e pagamentos no formulário */
+.bloco-titulo{display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px}
+.bloco-titulo h4{font-size:15px}
+.mini-table{border:1px solid var(--borda);border-radius:var(--raio-sm);overflow:hidden}
+.mini-table table{width:100%;border-collapse:collapse}
+.mini-table th{background:var(--gelo);font-size:11px;padding:8px 10px}
+.mini-table td{padding:7px 10px;border-top:1px solid var(--borda)}
+.mini-table input,.mini-table select{
+  padding:8px 9px;border:1px solid var(--borda);border-radius:8px;font-size:13px;
+  font-family:'Inter';width:100%;background:var(--branco);
+}
+.mini-table tbody:empty::after{content:"Nenhum item ainda.";display:block;padding:12px;color:var(--texto-suave);font-size:13px}
+
+.resumo-ficha{
+  display:flex;gap:22px;flex-wrap:wrap;align-items:center;
+  background:var(--gelo);border-radius:var(--raio-sm);padding:14px 18px;margin-top:18px;font-size:15px;
+}
+.resumo-ficha strong{font-family:'Poppins'}
+.saldo-deve{color:var(--vermelho)}
+
+.rel-area{
+  width:100%;border:1px solid var(--borda);border-radius:var(--raio-sm);padding:14px;
+  font-family:'Courier New',monospace;font-size:13px;line-height:1.5;background:var(--gelo);
+  resize:vertical;white-space:pre;
+}
+@keyframes pop{from{transform:translateY(-12px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+.modal-header{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;border-bottom:1px solid var(--borda)}
+.modal-header h3{font-size:19px}
+.modal-close{background:none;border:none;font-size:26px;cursor:pointer;color:var(--texto-suave);line-height:1}
+.modal-body{padding:24px}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px}
+
+/* ====== Formulários ====== */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;font-weight:600;color:var(--texto)}
+.field input,.field select,.field textarea{
+  padding:11px 13px;border:1px solid var(--borda);border-radius:var(--raio-sm);
+  font-size:14px;font-family:'Inter';background:var(--branco);
+}
+.field textarea{resize:vertical;min-height:60px}
+.field .hint{font-size:12px;color:var(--texto-suave)}
+.field .calc{font-size:13px;color:var(--verde);font-weight:600}
+.field-error input,.field-error select{border-color:var(--vermelho)}
+
+/* ====== Toast ====== */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:200;display:flex;flex-direction:column;gap:10px}
+.toast{
+  background:var(--texto);color:#fff;padding:14px 20px;border-radius:var(--raio-sm);
+  box-shadow:var(--sombra-forte);font-size:14px;font-weight:500;
+  animation:slidein .25s ease;min-width:240px;display:flex;align-items:center;gap:10px;
+}
+.toast.sucesso{background:var(--verde)}
+.toast.erro{background:var(--vermelho)}
+@keyframes slidein{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+
+/* inadimplência destaque */
+.alerta-banner{
+  background:var(--vermelho-claro);border:1px solid #f5c6c6;color:var(--vermelho);
+  padding:16px 20px;border-radius:var(--raio);margin-bottom:20px;font-weight:500;
+  display:flex;align-items:center;gap:10px;
+}
+.row-atraso{background:var(--vermelho-claro)!important}
+
+/* ====== Responsivo ====== */
+@media(max-width:860px){
+  .app{flex-direction:column}
+  .sidebar{width:100%;height:auto;position:relative;flex-direction:row;flex-wrap:wrap;align-items:center;padding:14px}
+  .brand{border:none;margin:0;padding:0 12px 0 0}
+  .menu{flex-direction:row;flex-wrap:wrap;flex:1}
+  .menu-item{padding:9px 12px;font-size:14px}
+  .sidebar-footer{display:none}
+  .content{padding:20px 16px}
+  .form-grid{grid-template-columns:1fr}
+  .table-wrap{overflow-x:auto}
+  table{min-width:640px}
+}
