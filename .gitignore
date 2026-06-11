@@ -3,12 +3,6 @@ venv/
 .venv/
 env/
 
-# Banco de dados (contém dados reais - não subir)
-essence.db
-*.db
-*.sqlite
-*.sqlite3
-
 # Backups
 backups/
 
