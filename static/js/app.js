@@ -868,11 +868,11 @@ const App = (() => {
           <div class="form-grid">
             <div class="field full">
               <label>Chave Pix</label>
-              <input id="cfg-pix-chave" value="${esc(cfg.pix_chave || "")}" placeholder="Ex.: 84 994274834">
+              <input id="cfg-pix-chave" value="${esc(cfg.pix_chave || "")}" placeholder="Ex.: 84 900000000">
             </div>
             <div class="field full">
               <label>Nome do titular</label>
-              <input id="cfg-pix-nome" value="${esc(cfg.pix_nome || "")}" placeholder="Ex.: Ana Julia Ramalho">
+              <input id="cfg-pix-nome" value="${esc(cfg.pix_nome || "")}" placeholder="Ex.: Ana Maria da Silva">
             </div>
             <div class="field full">
               <label>Razão social / empresa</label>

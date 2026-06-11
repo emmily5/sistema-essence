@@ -44,8 +44,8 @@ TRASH_RETENTION_DAYS = 7
 
 CONFIG_PADRAO = {
     "meta_mensal": "5000",
-    "pix_chave": "84 994274834",
-    "pix_nome": "Ana Julia Ramalho Martiniano Carneiro",
+    "pix_chave": "84 900000000",
+    "pix_nome": "Ana Maria da Silva",
     "pix_empresa": "Cloudwalk Ip Ltda",
 }
 
